@@ -94,17 +94,18 @@ with col5:
 # -----------------------------
 if st.button("🚀 Calcular"):
 
+    # 🔴 Si supera errores críticos → penalización 50%
     if errores > max_errores:
-        st.error("No elegible por errores críticos")
-    else:
 
-        c1 = calcular_kpi(r_isn, meta_isn, peso_isn, "mayor")
-        c2 = calcular_kpi(r_clientes, meta_clientes, peso_clientes, "mayor")
-        c3 = calcular_kpi(r_prod, meta_prod, peso_prod, "mayor")
-        c4 = calcular_kpi(r_sb, meta_sb, peso_sb, "menor")
+        st.warning("⚠️ Supera errores críticos: KPIs penalizados al 50%")
 
-        total_factor = c1[2] + c2[2] + c3[2] + c4[2]
+        # Cada KPI aporta su peso * 0.5
+        aporte_isn = peso_isn * 0.5
+        aporte_clientes = peso_clientes * 0.5
+        aporte_prod = peso_prod * 0.5
+        aporte_sb = peso_sb * 0.5
 
+        total_factor = aporte_isn + aporte_clientes + aporte_prod + aporte_sb
         total = target * total_factor
 
         if cap_max:
@@ -113,20 +114,48 @@ if st.button("🚀 Calcular"):
         st.markdown("## 💰 Resultado Final")
         st.success(f"${total:,.0f}")
 
-        # Breakdown
+        df = pd.DataFrame({
+            "KPI": ["ISN", "Clientes", "Productividad", "Tasa SB"],
+            "Cumplimiento %": ["Penalizado", "Penalizado", "Penalizado", "Penalizado"],
+            "Factor": [0.5, 0.5, 0.5, 0.5]
+        })
+
+    else:
+
+        # 🟢 Cálculo normal
+        c1 = calcular_kpi(r_isn, meta_isn, peso_isn, "mayor")
+        c2 = calcular_kpi(r_clientes, meta_clientes, peso_clientes, "mayor")
+        c3 = calcular_kpi(r_prod, meta_prod, peso_prod, "mayor")
+        c4 = calcular_kpi(r_sb, meta_sb, peso_sb, "menor")
+
+        total_factor = c1[2] + c2[2] + c3[2] + c4[2]
+        total = target * total_factor
+
+        if cap_max:
+            total = min(total, cap_max)
+
+        st.markdown("## 💰 Resultado Final")
+        st.success(f"${total:,.0f}")
+
         df = pd.DataFrame({
             "KPI": ["ISN", "Clientes", "Productividad", "Tasa SB"],
             "Cumplimiento %": [c1[0], c2[0], c3[0], c4[0]],
             "Factor": [c1[1], c2[1], c3[1], c4[1]]
         })
 
-        st.dataframe(df)
+    st.dataframe(df)
 
-        # Gráfico
+    # Gráfico
+    if errores > max_errores:
+        df_plot = pd.DataFrame({
+            "KPI": ["ISN", "Clientes", "Productividad", "Tasa SB"],
+            "Aporte": [aporte_isn, aporte_clientes, aporte_prod, aporte_sb]
+        })
+    else:
         df_plot = pd.DataFrame({
             "KPI": ["ISN", "Clientes", "Productividad", "Tasa SB"],
             "Aporte": [c1[2], c2[2], c3[2], c4[2]]
         })
 
-        fig = px.bar(df_plot, x="KPI", y="Aporte", title="Impacto por KPI")
-        st.plotly_chart(fig, use_container_width=True)
+    fig = px.bar(df_plot, x="KPI", y="Aporte", title="Impacto por KPI")
+    st.plotly_chart(fig, use_container_width=True)
