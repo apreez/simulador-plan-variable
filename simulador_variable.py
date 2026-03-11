@@ -115,10 +115,17 @@ if st.button("🚀 Calcular"):
         st.success(f"${total:,.0f}")
 
         df = pd.DataFrame({
-            "KPI": ["ISN", "Clientes", "Productividad", "Tasa SB"],
-            "Cumplimiento %": ["Penalizado", "Penalizado", "Penalizado", "Penalizado"],
-            "Factor": [0.5, 0.5, 0.5, 0.5]
-        })
+        "KPI": ["ISN", "Clientes", "Productividad", "Tasa SB"],
+        "Cumplimiento %": ["Penalizado", "Penalizado", "Penalizado", "Penalizado"],
+        "Factor": [0.5, 0.5, 0.5, 0.5],
+        "Aporte %": [aporte_isn, aporte_clientes, aporte_prod, aporte_sb],
+        "Monto $": [
+        target * aporte_isn,
+        target * aporte_clientes,
+        target * aporte_prod,
+        target * aporte_sb
+    ]
+})
 
     else:
 
