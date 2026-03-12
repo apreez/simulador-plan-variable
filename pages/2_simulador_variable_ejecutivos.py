@@ -49,7 +49,7 @@ uploaded_file = st.file_uploader("Subir archivo Excel", type=["xlsx"])
 
 if uploaded_file:
 
-    df = pd.read_excel(uploaded_file)
+    df = pd.read_excel(uploaded_file, engine="openpyxl")
 
     resultados = []
 
