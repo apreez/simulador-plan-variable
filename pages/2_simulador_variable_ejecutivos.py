@@ -122,4 +122,3 @@ if uploaded_file:
         file_name="resultado_variable.xlsx",
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
-    )
