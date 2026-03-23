@@ -14,20 +14,43 @@ st.title("📊 Simulador Gerencial - Plan Variable")
 # -----------------------------
 st.sidebar.header("⚙️ Configuración del Plan")
 
-target = st.sidebar.number_input("Target mensual ($)", value=768000)
+target = st.sidebar.number_input("Target mensual ($)", value=614400)
 
 max_errores = st.sidebar.number_input("Máx. errores críticos", value=3)
 
-cap_max = st.sidebar.number_input("Cap máximo ($) (0 = sin cap)", value=0)
+cap_max = st.sidebar.number_input("Cap máximo ($) (0 = sin cap)", value=768000)
 if cap_max == 0:
     cap_max = None
 
 st.sidebar.subheader("🎯 Metas del Mes")
 
-meta_isn = st.sidebar.number_input("Meta ISN", value=85)
-meta_clientes = st.sidebar.number_input("Meta Clientes Efectivos", value=100)
-meta_prod = st.sidebar.number_input("Meta Productividad", value=12)
-meta_sb = st.sidebar.number_input("Meta Tasa SB", value=5)
+meta_isn = st.sidebar.number_input(
+    "Meta ISN",
+    value=85.0,
+    step=0.1,
+    format="%.2f"
+)
+
+meta_clientes = st.sidebar.number_input(
+    "Meta Clientes Efectivos",
+    value=100.0,
+    step=1.0,
+    format="%.2f"
+)
+
+meta_prod = st.sidebar.number_input(
+    "Meta Productividad",
+    value=12.0,
+    step=0.1,
+    format="%.2f"
+)
+
+meta_sb = st.sidebar.number_input(
+    "Meta Tasa SB",
+    value=5.0,
+    step=0.1,
+    format="%.2f"
+)
 
 st.sidebar.subheader("⚖️ Ponderaciones (%)")
 
