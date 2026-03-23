@@ -97,19 +97,43 @@ st.header("📈 Simulación de Resultados")
 col1, col2, col3, col4, col5 = st.columns(5)
 
 with col1:
-    r_isn = st.number_input("ISN Real", value=90)
+    r_isn = st.number_input(
+        "ISN Real",
+        value=90.0,
+        step=0.1,
+        format="%.2f"
+    )
 
 with col2:
-    r_clientes = st.number_input("Clientes Efectivos", value=110)
+    r_clientes = st.number_input(
+        "Clientes Efectivos",
+        value=110.0,
+        step=1.0,
+        format="%.2f"
+    )
 
 with col3:
-    r_prod = st.number_input("Productividad", value=13)
+    r_prod = st.number_input(
+        "Productividad",
+        value=13.0,
+        step=0.1,
+        format="%.2f"
+    )
 
 with col4:
-    r_sb = st.number_input("Tasa SB", value=4)
+    r_sb = st.number_input(
+        "Tasa SB",
+        value=4.0,
+        step=0.1,
+        format="%.2f"
+    )
 
 with col5:
-    errores = st.number_input("Errores Críticos", value=2)
+    errores = st.number_input(
+        "Errores Críticos",
+        value=2,
+        step=1
+    )
 
 # -----------------------------
 # CÁLCULO
