@@ -92,6 +92,12 @@ if uploaded_file:
     resultados = []
 
     for _, row in df.iterrows():
+        # Forzar conversión a float segura
+isn = float(row["ISN"])
+clientes = float(row["CLIENTES EFECTIVOS"])
+prod = float(row["PRODUCTIVIDAD"])
+sb = float(row["TASA SOLICITUD DE BAJA"])
+errores = int(row["ERRORES CRITICOS"])
 
         nombre = row["Nombre"]
         errores = row["ERRORES CRITICOS"]
