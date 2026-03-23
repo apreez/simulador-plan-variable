@@ -16,10 +16,33 @@ target = st.sidebar.number_input("Target mensual ($)", value=614400)
 
 max_errores = st.sidebar.number_input("Máx. errores críticos", value=3)
 
-meta_isn = st.sidebar.number_input("Meta ISN", value=85)
-meta_clientes = st.sidebar.number_input("Meta Clientes Efectivos", value=200)
-meta_prod = st.sidebar.number_input("Meta Productividad", value=12)
-meta_sb = st.sidebar.number_input("Meta Tasa SB", value=10)
+meta_isn = st.sidebar.number_input(
+    "Meta ISN",
+    value=85.0,
+    step=0.1,
+    format="%.2f"
+)
+
+meta_clientes = st.sidebar.number_input(
+    "Meta Clientes Efectivos",
+    value=100.0,
+    step=1.0,
+    format="%.2f"
+)
+
+meta_prod = st.sidebar.number_input(
+    "Meta Productividad",
+    value=12.0,
+    step=0.1,
+    format="%.2f"
+)
+
+meta_sb = st.sidebar.number_input(
+    "Meta Tasa SB",
+    value=5.0,
+    step=0.1,
+    format="%.2f"
+)
 
 peso_isn = 0.20
 peso_clientes = 0.30
