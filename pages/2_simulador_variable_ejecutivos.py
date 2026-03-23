@@ -91,13 +91,21 @@ if uploaded_file:
 
     resultados = []
 
-    for _, row in df.iterrows():
-        # Forzar conversión a float segura
-isn = float(row["ISN"])
-clientes = float(row["CLIENTES EFECTIVOS"])
-prod = float(row["PRODUCTIVIDAD"])
-sb = float(row["TASA SOLICITUD DE BAJA"])
-errores = int(row["ERRORES CRITICOS"])
+# 🔹 Función segura para convertir decimales con coma
+def to_float(x):
+    if isinstance(x, str):
+        x = x.replace(",", ".")
+    return float(x)
+
+for _, row in df.iterrows():
+
+    isn = to_float(row["ISN"])
+    clientes = to_float(row["CLIENTES EFECTIVOS"])
+    prod = to_float(row["PRODUCTIVIDAD"])
+    sb = to_float(row["TASA SOLICITUD DE BAJA"])
+    errores = int(row["ERRORES CRITICOS"])
+
+    nombre = row["Nombre"]
 
         nombre = row["Nombre"]
         errores = row["ERRORES CRITICOS"]
