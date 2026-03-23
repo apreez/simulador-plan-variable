@@ -91,26 +91,22 @@ if uploaded_file:
 
     resultados = []
 
-# 🔹 Función segura para convertir decimales con coma
-def to_float(x):
-    if isinstance(x, str):
-        x = x.replace(",", ".")
-    return float(x)
+    # 🔹 Función segura para convertir decimales con coma
+    def to_float(x):
+        if isinstance(x, str):
+            x = x.replace(",", ".")
+        return float(x)
 
-for _, row in df.iterrows():
-
-    isn = to_float(row["ISN"])
-    clientes = to_float(row["CLIENTES EFECTIVOS"])
-    prod = to_float(row["PRODUCTIVIDAD"])
-    sb = to_float(row["TASA SOLICITUD DE BAJA"])
-    errores = int(row["ERRORES CRITICOS"])
-
-    nombre = row["Nombre"]
+    for _, row in df.iterrows():
 
         nombre = row["Nombre"]
-        errores = row["ERRORES CRITICOS"]
+        isn = to_float(row["ISN"])
+        clientes = to_float(row["CLIENTES EFECTIVOS"])
+        prod = to_float(row["PRODUCTIVIDAD"])
+        sb = to_float(row["TASA SOLICITUD DE BAJA"])
+        errores = int(row["ERRORES CRITICOS"])
 
-        # 🔴 Si supera errores → penalización 50%
+        # 🔴 Penalización si supera errores
         if errores > max_errores:
 
             total_factor = 0.5
@@ -120,10 +116,10 @@ for _, row in df.iterrows():
 
         else:
 
-            c1, a1 = calcular_kpi(row["ISN"], meta_isn, peso_isn)
-            c2, a2 = calcular_kpi(row["CLIENTES EFECTIVOS"], meta_clientes, peso_clientes)
-            c3, a3 = calcular_kpi(row["PRODUCTIVIDAD"], meta_prod, peso_prod)
-            c4, a4 = calcular_kpi(row["TASA SOLICITUD DE BAJA"], meta_sb, peso_sb, "menor")
+            c1, a1 = calcular_kpi(isn, meta_isn, peso_isn)
+            c2, a2 = calcular_kpi(clientes, meta_clientes, peso_clientes)
+            c3, a3 = calcular_kpi(prod, meta_prod, peso_prod)
+            c4, a4 = calcular_kpi(sb, meta_sb, peso_sb, "menor")
 
             total_factor = a1 + a2 + a3 + a4
             total = target * total_factor
@@ -133,10 +129,10 @@ for _, row in df.iterrows():
 
         resultados.append({
             "Nombre": nombre,
-            "ISN": row["ISN"],
-            "CLIENTES EFECTIVOS": row["CLIENTES EFECTIVOS"],
-            "TASA SOLICITUD DE BAJA": row["TASA SOLICITUD DE BAJA"],
-            "PRODUCTIVIDAD": row["PRODUCTIVIDAD"],
+            "ISN": isn,
+            "CLIENTES EFECTIVOS": clientes,
+            "TASA SOLICITUD DE BAJA": sb,
+            "PRODUCTIVIDAD": prod,
             "ERRORES CRITICOS": errores,
             "CUMPLIMIENTO %": round(cumplimiento_total, 2),
             "MONTO $": round(total, 0),
